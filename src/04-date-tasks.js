@@ -19,8 +19,9 @@
  *    'Tue, 26 Jan 2016 13:48:02 GMT' => Date()
  *    'Sun, 17 May 1998 03:00:00 GMT+01' => Date()
  */
-function parseDataFromRfc2822(/* value */) {
-  throw new Error('Not implemented');
+function parseDataFromRfc2822(value) {
+  return new Date(value);
+  // throw new Error('Not implemented');
 }
 
 /**
@@ -34,8 +35,9 @@ function parseDataFromRfc2822(/* value */) {
  *    '2016-01-19T16:07:37+00:00'    => Date()
  *    '2016-01-19T08:07:37Z' => Date()
  */
-function parseDataFromIso8601(/* value */) {
-  throw new Error('Not implemented');
+function parseDataFromIso8601(value) {
+  return new Date(value);
+  // throw new Error('Not implemented');
 }
 
 
@@ -53,8 +55,10 @@ function parseDataFromIso8601(/* value */) {
  *    Date(2012,1,1)    => true
  *    Date(2015,1,1)    => false
  */
-function isLeapYear(/* date */) {
-  throw new Error('Not implemented');
+function isLeapYear(date) {
+  const year = date.getFullYear();
+  return ((year % 4 === 0) && (year % 100 !== 0)) || (year % 400 === 0);
+  // throw new Error('Not implemented');
 }
 
 
@@ -73,8 +77,22 @@ function isLeapYear(/* date */) {
  *    Date(2000,1,1,10,0,0),  Date(2000,1,1,10,0,0,250)     => "00:00:00.250"
  *    Date(2000,1,1,10,0,0),  Date(2000,1,1,15,20,10,453)   => "05:20:10.453"
  */
-function timeSpanToString(/* startDate, endDate */) {
-  throw new Error('Not implemented');
+function timeSpanToString(startDate, endDate) {
+  const gap = endDate - startDate;
+  // console.log(gap);
+  const hours = Math.trunc(gap / (1000 * 60 * 60));
+  const chunkFromHours = gap - hours * 1000 * 60 * 60;
+  const minutes = Math.trunc(chunkFromHours / (1000 * 60));
+  const chunkFromMinutes = chunkFromHours - minutes * 60 * 1000;
+  const seconds = Math.trunc(chunkFromMinutes / 1000);
+  const ms = chunkFromMinutes - seconds * 1000;
+  const hoursStr = `${hours}`.length === 1 ? `0${hours}` : `${hours}`;
+  const minutesStr = `${minutes}`.length === 1 ? `0${minutes}` : `${minutes}`;
+  const secondsStr = `${seconds}`.length === 1 ? `0${seconds}` : `${seconds}`;
+  // eslint-disable-next-line no-nested-ternary
+  const msStr = `${ms}`.length === 2 ? `${ms}0` : ms.toString().length === 1 ? `${ms}00` : `${ms}`;
+  return `${hoursStr}:${minutesStr}:${secondsStr}.${msStr}`;
+  // throw new Error('Not implemented');
 }
 
 

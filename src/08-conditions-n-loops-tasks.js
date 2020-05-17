@@ -27,8 +27,10 @@
  *  21 => 'Fizz'
  *
  */
-function getFizzBuzz(/* num */) {
-  throw new Error('Not implemented');
+function getFizzBuzz(num) {
+  // eslint-disable-next-line no-nested-ternary
+  return (num % 15 === 0 ? 'FizzBuzz' : num % 3 === 0 ? 'Fizz' : num % 5 === 0 ? 'Buzz' : num);
+  // throw new Error('Not implemented');
 }
 
 
@@ -43,8 +45,11 @@ function getFizzBuzz(/* num */) {
  *   5  => 120
  *   10 => 3628800
  */
-function getFactorial(/* n */) {
-  throw new Error('Not implemented');
+function getFactorial(n) {
+  if (n === 0 || n === 1) {
+    return 1;
+  }
+  return n * getFactorial(n - 1);
 }
 
 
@@ -208,8 +213,9 @@ function getIntervalString(/* a, b, isStartIncluded, isEndIncluded */) {
  * 'rotator' => 'rotator'
  * 'noon' => 'noon'
  */
-function reverseString(/* str */) {
-  throw new Error('Not implemented');
+function reverseString(str) {
+  return str.split('').reverse().join('');
+  // throw new Error('Not implemented');
 }
 
 
@@ -225,8 +231,9 @@ function reverseString(/* str */) {
  *   87354 => 45378
  *   34143 => 34143
  */
-function reverseInteger(/* num */) {
-  throw new Error('Not implemented');
+function reverseInteger(num) {
+  return +num.toString().split('').reverse().join('');
+  // throw new Error('Not implemented');
 }
 
 
@@ -250,8 +257,28 @@ function reverseInteger(/* num */) {
  *   5436468789016589 => false
  *   4916123456789012 => false
  */
-function isCreditCardNumber(/* ccn */) {
-  throw new Error('Not implemented');
+function isCreditCardNumber(ccn) {
+  let sum = 0;
+  const num = ccn.toString();
+
+  // eslint-disable-next-line no-plusplus
+  for (let i = 0; i < num.length; i++) {
+    // eslint-disable-next-line radix
+    let cardNum = parseInt(num[i]);
+
+    if ((num.length - i) % 2 === 0) {
+      cardNum *= 2;
+
+      if (cardNum > 9) {
+        cardNum -= 9;
+      }
+    }
+
+    sum += cardNum;
+  }
+
+  return sum % 10 === 0;
+  // throw new Error('Not implemented');
 }
 
 /**
@@ -268,8 +295,15 @@ function isCreditCardNumber(/* ccn */) {
  *   10000 ( 1+0+0+0+0 = 1 ) => 1
  *   165536 (1+6+5+5+3+6 = 26,  2+6 = 8) => 8
  */
-function getDigitalRoot(/* num */) {
-  throw new Error('Not implemented');
+function getDigitalRoot(num) {
+  const str = num.toString();
+  const arr = str.split('');
+  const n = arr.reduce((sum, elem) => +elem + sum, 0);
+  if (n >= 10) {
+    return getDigitalRoot(n);
+  }
+  return n;
+  // throw new Error('Not implemented');
 }
 
 
@@ -294,8 +328,21 @@ function getDigitalRoot(/* num */) {
  *   '{)' = false
  *   '{[(<{[]}>)]}' = true
  */
-function isBracketsBalanced(/* str */) {
-  throw new Error('Not implemented');
+function isBracketsBalanced(str) {
+  const bracketsConfig = [['(', ')'], ['|', '|'], ['[', ']'], ['{', '}'], ['<', '>']];
+  const len = str.length;
+  // eslint-disable-next-line no-plusplus
+  for (let i = 0; i < len; i++) {
+    // eslint-disable-next-line no-plusplus
+    for (let j = 0; j < bracketsConfig.length; j++) {
+      if (str.includes(bracketsConfig[j][0] + bracketsConfig[j][1])) {
+        // eslint-disable-next-line no-param-reassign
+        str = str.replace((bracketsConfig[j][0] + bracketsConfig[j][1]), '');
+      }
+    }
+  }
+  return str === '';
+  // throw new Error('Not implemented');
 }
 
 
